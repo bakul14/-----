@@ -41,7 +41,7 @@ if (!$_SESSION['user']) {
 					}
 					?>
 					<li><a href="operations.php">Операции</a></li>
-					<li><a href="elements.php">Комплетующие</a></li>
+					<li><a href="elements.php">Комплектующие</a></li>
 					<li><a href="equipment.php">Оборудование</a></li>
 					<li><a href="products.php">Изделия</a></li>
 					<?php
