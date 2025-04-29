@@ -18,9 +18,9 @@
 
                 $select="SELECT * FROM users WHERE us_login = '$login'";
 
-                $check_user = ociParse($c,$select);
-                OCIExecute($check_user, OCI_DEFAULT);
-                $row=ociFetch($check_user, OCI_ASSOC);
+                $check_user = oci_parse($c,$select);
+                oci_execute($check_user, OCI_DEFAULT);
+                $row=oci_fetch($check_user, OCI_ASSOC);
 
                     if($login == $row['US_LOGIN']){
                         $_SESSION['message'] = 'Пользователь существует!';
@@ -29,9 +29,9 @@
                     else{
                         $password = md5($password);
 
-                        $s = OCIParse($c, "INSERT INTO users (us_id, us_login, us_password, us_permission, us_firstname, us_surname, us_lastname, us_position) VALUES (NULL, '$login', '$password', '$permission', '$firstname', '$surname', '$lastname',NULL)");
+                        $s = oci_parse($c, "INSERT INTO users (us_id, us_login, us_password, us_permission, us_firstname, us_surname, us_lastname, us_position) VALUES (NULL, '$login', '$password', '$permission', '$firstname', '$surname', '$lastname',NULL)");
 
-                        OCIExecute($s, OCI_DEFAULT);
+                        oci_execute($s, OCI_DEFAULT);
                         $_SESSION['message'] = 'Регистрация прошла успешно!';
                         header('Location: reg.php');
                     } 
@@ -50,6 +50,6 @@
         $_SESSION['message'] = 'Имя введено некорректно!';
                 header('Location: reg.php');
     }
-    OCICommit($c);
-    OCILogoff($c);
+    oci_commit($c);
+    oci_close($c);
 ?>

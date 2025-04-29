@@ -68,30 +68,30 @@ if ($_SESSION['user']['permission'] == "employee"){
 			                        <?php
 			                        include "connect.php";
 			                        $id=$_GET['id'];
-			                        $s = OCIParse($c, "SELECT * FROM products WHERE prod_id ='$id'");
-			                        OCIExecute($s, OCI_DEFAULT);
-			                        OCIFetch($s);
+			                        $s = oci_parse($c, "SELECT * FROM products WHERE prod_id ='$id'");
+			                        oci_execute($s, OCI_DEFAULT);
+			                        oci_fetch($s);
 
-			                        echo "<tr><td><input type='text' class='input_chng' name='prod_date' value='".ociresult($s, "PROD_DATE")."'></td><td>" .
-			                            "<input type='text' class='input_chng' name='prod_name' value='".ociresult($s, "PROD_NAME")."'></td><td>".
-			                            "<input type='text' class='input_chng' name='prod_condition' value='".ociresult($s, "PROD_CONDITION")."'></td>";
+			                        echo "<tr><td><input type='text' class='input_chng' name='prod_date' value='".oci_result($s, "PROD_DATE")."'></td><td>" .
+			                            "<input type='text' class='input_chng' name='prod_name' value='".oci_result($s, "PROD_NAME")."'></td><td>".
+			                            "<input type='text' class='input_chng' name='prod_condition' value='".oci_result($s, "PROD_CONDITION")."'></td>";
 									
 									echo "<td><select class='input_chng' name='op_id'>";
-									$s2 = OCIParse($c, "SELECT op_id, op_desc FROM operations ORDER BY OP_ID ASC");
-									OCIExecute($s2, OCI_DEFAULT);
-									while (OCIFetch($s2)) {
-										if (ociresult($s, "PROD_OP_ID") == ociresult($s2, "OP_ID")) {
-											echo "<option selected value=".ociresult($s2, "OP_ID").">".ociresult($s2, "OP_DESC")."</option>";
+									$s2 = oci_parse($c, "SELECT op_id, op_desc FROM operations ORDER BY OP_ID ASC");
+									oci_execute($s2, OCI_DEFAULT);
+									while (oci_fetch($s2)) {
+										if (oci_result($s, "PROD_OP_ID") == oci_result($s2, "OP_ID")) {
+											echo "<option selected value=".oci_result($s2, "OP_ID").">".oci_result($s2, "OP_DESC")."</option>";
 										} else {
-											echo "<option value=".ociresult($s2, "OP_ID").">".ociresult($s2, "OP_DESC")."</option>";
+											echo "<option value=".oci_result($s2, "OP_ID").">".oci_result($s2, "OP_DESC")."</option>";
 										}
 										
 									}
 									echo "</select></td></tr>";
 									
-			                        //    "<td><input type='text' class='input_chng' name='op_id' value='".ociresult($s, "PROD_OP_ID")."'></td></tr>";
-			                        OCICommit($c);
-			                        OCILogoff($c);
+			                        //    "<td><input type='text' class='input_chng' name='op_id' value='".oci_result($s, "PROD_OP_ID")."'></td></tr>";
+			                        oci_commit($c);
+			                        oci_close($c);
 			                        ?>
 
 			                    </table>
@@ -114,14 +114,14 @@ if ($_SESSION['user']['permission'] == "employee"){
 
 				                        if(isset($_POST['change'])){
 				                        	if ($id!=0){
-				                            	$s = OCIParse($c, "UPDATE products SET prod_date = '$date', prod_name = '$name', prod_condition = '$condition', prod_op_id = '$op_id' WHERE prod_id = '$id' ");
+				                            	$s = oci_parse($c, "UPDATE products SET prod_date = '$date', prod_name = '$name', prod_condition = '$condition', prod_op_id = '$op_id' WHERE prod_id = '$id' ");
 				                        	}
 				                        	else{
-				                        		$s = OCIParse($c, "INSERT INTO products (prod_id,prod_date,prod_condition,prod_name, prod_op_id) VALUES (NULL,'$date','$condition','$name','$op_id')");
+				                        		$s = oci_parse($c, "INSERT INTO products (prod_id,prod_date,prod_condition,prod_name, prod_op_id) VALUES (NULL,'$date','$condition','$name','$op_id')");
 				                        	}
-				                            OCIExecute($s, OCI_DEFAULT);
-				                            OCICommit($c);
-				                            OCILogoff($c);
+				                            oci_execute($s, OCI_DEFAULT);
+				                            oci_commit($c);
+				                            oci_close($c);
 				                            header('Location: products.php');
 				                        }
 

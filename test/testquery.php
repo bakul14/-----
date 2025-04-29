@@ -1,5 +1,5 @@
 <?php
 $res="result";
-$query="<input type='text' value='".ociresult($s, "US_FIRSTNAME")."'>";
+$query="<input type='text' value='".oci_result($s, "US_FIRSTNAME")."'>";
 echo $query;
 ?>

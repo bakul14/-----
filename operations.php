@@ -73,30 +73,30 @@ if (!$_SESSION['user']) {
 	                        </tr>
 	                        <?php
 		                        include "connect.php";
-		                        $s = OCIParse($c, "SELECT * FROM operations ORDER BY OP_ID");
-		                        OCIExecute($s, OCI_DEFAULT);
+		                        $s = oci_parse($c, "SELECT * FROM operations ORDER BY OP_ID");
+		                        oci_execute($s, OCI_DEFAULT);
 	                        	$radio=$_POST['radio'];
-		                        while (OCIFetch($s)) {
+		                        while (oci_fetch($s)) {
 
 		                        	if ($_SESSION['user']['permission'] == "admin" || $_SESSION['user']['permission'] == "boss"){
-			                            echo ("<tr><td><input type='radio' name='radio' value='".ociresult($s, "OP_ID")."'></td><td>" .
-			                            	ociresult($s, "OP_ID") ."</td><td>" .
-			                                ociresult($s, "OP_NAME") ."</td><td>" .
-			                                ociresult($s, "OP_DESC") . "</td><td>".
-			                                ociresult($s, "OP_TYPE") . "</td><td>".
-			                                ociresult($s, "OP_COST") . "</td><td>".
-			                                ociresult($s, "OP_DUR") . "</td><td>".
-			                                ociresult($s, "OP_US_POSITION") . "</td></tr>");
+			                            echo ("<tr><td><input type='radio' name='radio' value='".oci_result($s, "OP_ID")."'></td><td>" .
+			                            	oci_result($s, "OP_ID") ."</td><td>" .
+			                                oci_result($s, "OP_NAME") ."</td><td>" .
+			                                oci_result($s, "OP_DESC") . "</td><td>".
+			                                oci_result($s, "OP_TYPE") . "</td><td>".
+			                                oci_result($s, "OP_COST") . "</td><td>".
+			                                oci_result($s, "OP_DUR") . "</td><td>".
+			                                oci_result($s, "OP_US_POSITION") . "</td></tr>");
 		                        	}
 		                        	else{
 		                        		echo ("<tr><td>" .
-			                            	ociresult($s, "OP_ID") ."</td><td>" .
-			                                ociresult($s, "OP_NAME") ."</td><td>" .
-			                                ociresult($s, "OP_DESC") . "</td><td>".
-			                                ociresult($s, "OP_TYPE") . "</td><td>".
-			                                ociresult($s, "OP_COST") . "</td><td>".
-			                                ociresult($s, "OP_DUR") . "</td><td>".
-			                                ociresult($s, "OP_US_POSITION") . "</td></tr>");
+			                            	oci_result($s, "OP_ID") ."</td><td>" .
+			                                oci_result($s, "OP_NAME") ."</td><td>" .
+			                                oci_result($s, "OP_DESC") . "</td><td>".
+			                                oci_result($s, "OP_TYPE") . "</td><td>".
+			                                oci_result($s, "OP_COST") . "</td><td>".
+			                                oci_result($s, "OP_DUR") . "</td><td>".
+			                                oci_result($s, "OP_US_POSITION") . "</td></tr>");
 		                        	}
 		                        }
 		                        	if(isset($_POST['add'])){
@@ -107,8 +107,8 @@ if (!$_SESSION['user']) {
 		                            
 		                            if(isset($_POST['delete'])){
 		                            	
-		                            	$d = OCIParse($c, "DELETE FROM operations WHERE op_id ='$radio'");
-		                        		OCIExecute($d, OCI_DEFAULT);
+		                            	$d = oci_parse($c, "DELETE FROM operations WHERE op_id ='$radio'");
+		                        		oci_execute($d, OCI_DEFAULT);
 		                        		header("Refresh:0");
 
 		                            }
@@ -118,9 +118,9 @@ if (!$_SESSION['user']) {
 
 		                            }
 		                        
-		                        OCICommit($c);
+		                        oci_commit($c);
 		                        // Отключаемся от бд
-		                        OCILogoff($c);
+		                        oci_close($c);
 	                        ?>
 	                    </div>
 	                        <tr>
@@ -131,25 +131,25 @@ if (!$_SESSION['user']) {
 	                        	<td></td><td></td><td></td><td></td><td>Σ = 
 	                        	<?php		
 	                        		include "connect.php";		                       
-	                        		$s = OCIParse($c, "SELECT SUM (op_cost) FROM operations");
-				                    OCIExecute($s, OCI_DEFAULT);
-				                    	while (OCIFetch($s)){
-				                        	echo(ociresult($s,1));
+	                        		$s = oci_parse($c, "SELECT SUM (op_cost) FROM operations");
+				                    oci_execute($s, OCI_DEFAULT);
+				                    	while (oci_fetch($s)){
+				                        	echo(oci_result($s,1));
 				                        }
-				                    OCICommit($c);
-				                    OCILogoff($c);
+				                    oci_commit($c);
+				                    oci_close($c);
 				                        
 				                ?>
 	                        </td><td>Σ = 
 	                        	<?php		
 	                        		include "connect.php";		                       
-	                        		$s = OCIParse($c, "SELECT SUM (op_dur) FROM operations");
-				                    OCIExecute($s, OCI_DEFAULT);
-				                    	while (OCIFetch($s)){
-				                        	echo(ociresult($s,1));
+	                        		$s = oci_parse($c, "SELECT SUM (op_dur) FROM operations");
+				                    oci_execute($s, OCI_DEFAULT);
+				                    	while (oci_fetch($s)){
+				                        	echo(oci_result($s,1));
 				                        }
-				                    OCICommit($c);
-				                    OCILogoff($c);
+				                    oci_commit($c);
+				                    oci_close($c);
 				                        
 				                ?>
 	                        </td><td></td></tr>

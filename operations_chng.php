@@ -70,32 +70,32 @@ if ($_SESSION['user']['permission'] == "employee"){
 			                        <?php
 			                        include "connect.php";
 			                        $id=$_GET['id'];
-			                        $s = OCIParse($c, "SELECT * FROM operations WHERE op_id ='$id'");
-			                        OCIExecute($s, OCI_DEFAULT);
-			                        OCIFetch($s);
+			                        $s = oci_parse($c, "SELECT * FROM operations WHERE op_id ='$id'");
+			                        oci_execute($s, OCI_DEFAULT);
+			                        oci_fetch($s);
 
-			                        echo ("<tr><td><input type='text' class='input_chng' name='opname' value='".ociresult($s, "OP_NAME")."'></td><td>" .
-			                            "<input type='text' class='input_chng' name='opdesc' value='".ociresult($s, "OP_DESC")."'></td><td>".
-			                            "<input type='text' class='input_chng' name='optype' value='".ociresult($s, "OP_TYPE")."'></td><td>".
-			                            "<input type='text' class='input_chng' name='opcost' value='".ociresult($s, "OP_COST")."'></td><td>".
-			                            "<input type='text' class='input_chng' name='opdur' value='".ociresult($s, "OP_DUR")."'></td>");
+			                        echo ("<tr><td><input type='text' class='input_chng' name='opname' value='".oci_result($s, "OP_NAME")."'></td><td>" .
+			                            "<input type='text' class='input_chng' name='opdesc' value='".oci_result($s, "OP_DESC")."'></td><td>".
+			                            "<input type='text' class='input_chng' name='optype' value='".oci_result($s, "OP_TYPE")."'></td><td>".
+			                            "<input type='text' class='input_chng' name='opcost' value='".oci_result($s, "OP_COST")."'></td><td>".
+			                            "<input type='text' class='input_chng' name='opdur' value='".oci_result($s, "OP_DUR")."'></td>");
 									
 									echo "<td><select class='input_chng' name='opuspos'>";
-									$s2 = OCIParse($c, "SELECT us_position FROM users ORDER BY US_ID ASC");
-									OCIExecute($s2, OCI_DEFAULT);
-									while (OCIFetch($s2)) {
-										if (ociresult($s, "OP_US_POSITION") == ociresult($s2, "US_POSITION")) {
-											echo "<option selected>".ociresult($s2, "US_POSITION")."</option>";
+									$s2 = oci_parse($c, "SELECT us_position FROM users ORDER BY US_ID ASC");
+									oci_execute($s2, OCI_DEFAULT);
+									while (oci_fetch($s2)) {
+										if (oci_result($s, "OP_US_POSITION") == oci_result($s2, "US_POSITION")) {
+											echo "<option selected>".oci_result($s2, "US_POSITION")."</option>";
 										} else {
-											echo "<option>".ociresult($s2, "US_POSITION")."</option>";
+											echo "<option>".oci_result($s2, "US_POSITION")."</option>";
 										}
 										
 									}
 									
 									echo "</select></td></tr>";
-									//echo "<input type='text' class='input_chng' name='opuspos' value='".ociresult($s, "OP_US_POSITION")."'></td></tr>";
-			                        OCICommit($c);
-			                        OCILogoff($c);
+									//echo "<input type='text' class='input_chng' name='opuspos' value='".oci_result($s, "OP_US_POSITION")."'></td></tr>";
+			                        oci_commit($c);
+			                        oci_close($c);
 			                        ?>
 
 			                    </table>
@@ -120,16 +120,16 @@ if ($_SESSION['user']['permission'] == "employee"){
 
 				                        if(isset($_POST['change'])){
 				                        	if ($id != 0){
-				                            	$s = OCIParse($c, "UPDATE operations SET op_cost = '$opcost', op_dur = '$opdur', op_name = '$opname', op_desc = '$opdesc', op_type = '$optype', op_us_position = '$opuspos' WHERE op_id = '$id' ");
+				                            	$s = oci_parse($c, "UPDATE operations SET op_cost = '$opcost', op_dur = '$opdur', op_name = '$opname', op_desc = '$opdesc', op_type = '$optype', op_us_position = '$opuspos' WHERE op_id = '$id' ");
 				                        	}
 				                        	else{
-				                        		$s = OCIParse($c, "INSERT INTO operations (op_id, op_cost, op_dur, op_name,
+				                        		$s = oci_parse($c, "INSERT INTO operations (op_id, op_cost, op_dur, op_name,
 				                        		 op_desc, op_type, op_us_position) VALUES (NULL, '$opcost', '$opdur', '$opname', 
 				                        		 '$opdesc', '$optype', '$opuspos')");
 				                        	}
-				                            OCIExecute($s, OCI_DEFAULT);
-				                            OCICommit($c);
-				                            OCILogoff($c);
+				                            oci_execute($s, OCI_DEFAULT);
+				                            oci_commit($c);
+				                            oci_close($c);
 				                            header('Location: operations.php');
 				                        }
 

@@ -66,28 +66,28 @@ if ($_SESSION['user']['permission'] == "employee"){
 			                        <?php
 			                        include "connect.php";
 			                        $id=$_GET['id'];
-			                        $s = OCIParse($c, "SELECT * FROM equipment WHERE equip_id ='$id'");
-			                        OCIExecute($s, OCI_DEFAULT);
-			                        OCIFetch($s);
+			                        $s = oci_parse($c, "SELECT * FROM equipment WHERE equip_id ='$id'");
+			                        oci_execute($s, OCI_DEFAULT);
+			                        oci_fetch($s);
 
-			                        echo "<tr><td><input type='text' class='input_chng' name='eq_name' value='".ociresult($s, "EQUIP_NAME")."'></td><td>" .
-			                            "<input type='text' class='input_chng' name='eq_type' value='".ociresult($s, "EQUIP_TYPE")."'></td>";
+			                        echo "<tr><td><input type='text' class='input_chng' name='eq_name' value='".oci_result($s, "EQUIP_NAME")."'></td><td>" .
+			                            "<input type='text' class='input_chng' name='eq_type' value='".oci_result($s, "EQUIP_TYPE")."'></td>";
 									
 									echo "<td><select class='input_chng' name='op_id'>";
-									$s2 = OCIParse($c, "SELECT op_id, op_desc FROM operations ORDER BY OP_ID ASC");
-									OCIExecute($s2, OCI_DEFAULT);
-									while (OCIFetch($s2)) {
-										if (ociresult($s, "EQUIP_OP_ID") == ociresult($s2, "OP_ID")) {
-											echo "<option selected value=".ociresult($s2, "OP_ID").">".ociresult($s2, "OP_DESC")."</option>";
+									$s2 = oci_parse($c, "SELECT op_id, op_desc FROM operations ORDER BY OP_ID ASC");
+									oci_execute($s2, OCI_DEFAULT);
+									while (oci_fetch($s2)) {
+										if (oci_result($s, "EQUIP_OP_ID") == oci_result($s2, "OP_ID")) {
+											echo "<option selected value=".oci_result($s2, "OP_ID").">".oci_result($s2, "OP_DESC")."</option>";
 										} else {
-											echo "<option value=".ociresult($s2, "OP_ID").">".ociresult($s2, "OP_DESC")."</option>";
+											echo "<option value=".oci_result($s2, "OP_ID").">".oci_result($s2, "OP_DESC")."</option>";
 										}
 										
 									}
 									echo "</select></td></tr>";
-									//"<input type='text' class='input_chng' name='op_id' value='".ociresult($s, "EQUIP_OP_ID")."'></td>"
-			                        OCICommit($c);
-			                        OCILogoff($c);
+									//"<input type='text' class='input_chng' name='op_id' value='".oci_result($s, "EQUIP_OP_ID")."'></td>"
+			                        oci_commit($c);
+			                        oci_close($c);
 			                        ?>
 
 			                    </table>
@@ -108,14 +108,14 @@ if ($_SESSION['user']['permission'] == "employee"){
 
 				                        if(isset($_POST['change'])){
 				                        	if ($id!=0){
-				                            	$s = OCIParse($c, "UPDATE equipment SET equip_name = '$name', equip_type = '$type', equip_op_id = '$op_id' WHERE equip_id = '$id' ");
+				                            	$s = oci_parse($c, "UPDATE equipment SET equip_name = '$name', equip_type = '$type', equip_op_id = '$op_id' WHERE equip_id = '$id' ");
 				                        	}
 				                        	else{
-				                        		$s = OCIParse($c, "INSERT INTO equipment (equip_id,equip_name,equip_type, equip_op_id) VALUES (NULL, '$name','$type','$op_id')");
+				                        		$s = oci_parse($c, "INSERT INTO equipment (equip_id,equip_name,equip_type, equip_op_id) VALUES (NULL, '$name','$type','$op_id')");
 				                        	}
-				                            OCIExecute($s, OCI_DEFAULT);
-				                            OCICommit($c);
-				                            OCILogoff($c);
+				                            oci_execute($s, OCI_DEFAULT);
+				                            oci_commit($c);
+				                            oci_close($c);
 				                            header('Location: equipment.php');
 				                        }
 

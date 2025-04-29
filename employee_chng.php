@@ -70,33 +70,33 @@ if ($_SESSION['user']['permission'] == "employee"){
                         <?php
                         include "connect.php";
                         $id=$_GET['id'];
-                        $s = OCIParse($c, "SELECT * FROM users  WHERE us_id ='$id'");
-                        OCIExecute($s, OCI_DEFAULT);
-                        OCIFetch($s);
+                        $s = oci_parse($c, "SELECT * FROM users  WHERE us_id ='$id'");
+                        oci_execute($s, OCI_DEFAULT);
+                        oci_fetch($s);
                         $adm_rad=" ";
                         $boss_rad=" ";
                         $empl_rad=" ";
                         
-                        if(ociresult($s, "US_PERMISSION")=="admin"){
+                        if(oci_result($s, "US_PERMISSION")=="admin"){
                             $adm_rad="checked";
                         }
-                        if(ociresult($s, "US_PERMISSION")=="boss"){
+                        if(oci_result($s, "US_PERMISSION")=="boss"){
                             $boss_rad="checked";
                         }
-                        if(ociresult($s, "US_PERMISSION")=="employee"){
+                        if(oci_result($s, "US_PERMISSION")=="employee"){
                            $empl_rad="checked"; 
                         }
 
-                        echo ("<tr><td><input type='text' class='input_chng' name='lastname' value='".ociresult($s, "US_LASTNAME")."'></td><td>" .
-                            "<input type='text' class='input_chng' name='firstname' value='".ociresult($s, "US_FIRSTNAME")."'></td><td>".
-                            "<input type='text' class='input_chng' name='surname' value='".ociresult($s, "US_SURNAME")."'></td><td>".
-                            "<input type='text' class='input_chng' name='position' value='".ociresult($s, "US_POSITION")."'></td><td>".
+                        echo ("<tr><td><input type='text' class='input_chng' name='lastname' value='".oci_result($s, "US_LASTNAME")."'></td><td>" .
+                            "<input type='text' class='input_chng' name='firstname' value='".oci_result($s, "US_FIRSTNAME")."'></td><td>".
+                            "<input type='text' class='input_chng' name='surname' value='".oci_result($s, "US_SURNAME")."'></td><td>".
+                            "<input type='text' class='input_chng' name='position' value='".oci_result($s, "US_POSITION")."'></td><td>".
                             "<input type='radio' class='input_chng_radio1' name='permission' value='admin'".$adm_rad."> admin<br>".
                             "<input type='radio' class='input_chng_radio2' name='permission' value='boss'".$boss_rad."> boss<br>".
                             "<input type='radio' class='input_chng_radio3' name='permission' value='employee'".$empl_rad."> employee<br>"."</td><td>".
-                            "<input type='text' class='input_chng' name='login' value='".ociresult($s, "US_LOGIN")."'></td></tr>");
-                        OCICommit($c);
-                        OCILogoff($c);
+                            "<input type='text' class='input_chng' name='login' value='".oci_result($s, "US_LOGIN")."'></td></tr>");
+                        oci_commit($c);
+                        oci_close($c);
                         ?>
 
                     </table>
@@ -114,10 +114,10 @@ if ($_SESSION['user']['permission'] == "employee"){
                             $position=$_POST['position'];
                             $permission=$_POST['permission'];
                             $login=$_POST['login'];
-                            $s = OCIParse($c, "UPDATE users SET us_lastname = '$lastname', us_firstname = '$firstname', us_surname = '$surname', us_permission = '$permission', us_login = '$login', us_position = '$position' WHERE us_id = '$id' ");
-                            OCIExecute($s, OCI_DEFAULT);
-                            OCICommit($c);
-                            OCILogoff($c);
+                            $s = oci_parse($c, "UPDATE users SET us_lastname = '$lastname', us_firstname = '$firstname', us_surname = '$surname', us_permission = '$permission', us_login = '$login', us_position = '$position' WHERE us_id = '$id' ");
+                            oci_execute($s, OCI_DEFAULT);
+                            oci_commit($c);
+                            oci_close($c);
                             if($_SESSION['user']['id']==$id){
                                 $_SESSION['user']['lastname']=$lastname;
                                 $_SESSION['user']['firstname']=$firstname;

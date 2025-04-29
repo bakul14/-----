@@ -19,17 +19,17 @@ $pdf->SetFont('gostb', '', 10);
 
 	$selec="SELECT * FROM operations";
 					
-	$sp = OCIParse($c , $selec); 
-	OCIExecute($sp , OCI_DEFAULT); 
+	$sp = oci_parse($c , $selec); 
+	oci_execute($sp , OCI_DEFAULT); 
 
 
 	$j=0;
 	$i=1;
 	$pdf->Text(10, 67+round($j*7.4), $i);
-	WHILE (OCIFetch($sp)) {
+	WHILE (oci_fetch($sp)) {
 		$pdf->Text(10, 67+round($j*7.4), $i);
-		$ope_id = OCIResult($sp , "OP_ID");
-		$text = OCIResult($sp , "OP_NAME");
+		$ope_id = oci_result($sp , "OP_ID");
+		$text = oci_result($sp , "OP_NAME");
 		$text = iconv('utf-8','cp1251',$text);
 		$pdf->Text(27, 67+round($j*7.4), $text);
 

@@ -61,17 +61,17 @@ if (!$_SESSION['user']) {
 			                        <?php
 			                        include "connect.php";
 			                        $id=$_GET['id'];
-			                        $s = OCIParse($c, "SELECT * FROM elements WHERE elem_id ='$id'");
-			                        OCIExecute($s, OCI_DEFAULT);
-			                        OCIFetch($s);
+			                        $s = oci_parse($c, "SELECT * FROM elements WHERE elem_id ='$id'");
+			                        oci_execute($s, OCI_DEFAULT);
+			                        oci_fetch($s);
 
-			                        echo ("<tr><td><input type='text' class='input_chng' name='elem_name' value='".ociresult($s, "ELEM_NAME")."'></td><td>" .
-			                        	"<input type='text' class='input_chng' name='nominal' value='".ociresult($s, "ELEM_NOMINAL")."'></td><td>".
-			                            "<input type='text' class='input_chng' name='type' value='".ociresult($s, "ELEM_TYPE")."'></td><td>".
-			                            "<input type='text' class='input_chng' name='provider' value='".ociresult($s, "ELEM_PROVIDER")."'></td><td>".
-			                            "<input type='text' class='input_chng' name='op_id' value='".ociresult($s, "ELEM_OP_ID")."'></td></tr>");
-			                        OCICommit($c);
-			                        OCILogoff($c);
+			                        echo ("<tr><td><input type='text' class='input_chng' name='elem_name' value='".oci_result($s, "ELEM_NAME")."'></td><td>" .
+			                        	"<input type='text' class='input_chng' name='nominal' value='".oci_result($s, "ELEM_NOMINAL")."'></td><td>".
+			                            "<input type='text' class='input_chng' name='type' value='".oci_result($s, "ELEM_TYPE")."'></td><td>".
+			                            "<input type='text' class='input_chng' name='provider' value='".oci_result($s, "ELEM_PROVIDER")."'></td><td>".
+			                            "<input type='text' class='input_chng' name='op_id' value='".oci_result($s, "ELEM_OP_ID")."'></td></tr>");
+			                        oci_commit($c);
+			                        oci_close($c);
 			                        ?>
 
 			                    </table>
@@ -95,14 +95,14 @@ if (!$_SESSION['user']) {
 
 				                        if(isset($_POST['change'])){
 				                        	if ($id!=0){
-				                            	$s = OCIParse($c, "UPDATE elements SET elem_name = '$elem_name', elem_provider = '$provider', elem_nominal = '$nominal', elem_type = '$type', elem_op_id = '$op_id' WHERE elem_id = '$id' ");
+				                            	$s = oci_parse($c, "UPDATE elements SET elem_name = '$elem_name', elem_provider = '$provider', elem_nominal = '$nominal', elem_type = '$type', elem_op_id = '$op_id' WHERE elem_id = '$id' ");
 				                        	}
 				                        	else{
-				                        		$s = OCIParse($c, "INSERT INTO elements (elem_id,elem_name,elem_provider, elem_nominal, elem_type, elem_op_id) VALUES (NULL, '$elem_name','$provider','$nominal', '$type', '$op_id')");
+				                        		$s = oci_parse($c, "INSERT INTO elements (elem_id,elem_name,elem_provider, elem_nominal, elem_type, elem_op_id) VALUES (NULL, '$elem_name','$provider','$nominal', '$type', '$op_id')");
 				                        	}
-				                            OCIExecute($s, OCI_DEFAULT);
-				                            OCICommit($c);
-				                            OCILogoff($c);
+				                            oci_execute($s, OCI_DEFAULT);
+				                            oci_commit($c);
+				                            oci_close($c);
 				                            header('Location: elements.php');
 				                        }
 

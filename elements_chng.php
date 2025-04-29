@@ -68,30 +68,30 @@ if ($_SESSION['user']['permission'] == "employee"){
 			                        <?php
 			                        include "connect.php";
 			                        $id=$_GET['id'];
-			                        $s = OCIParse($c, "SELECT * FROM elements WHERE elem_id ='$id'");
-			                        OCIExecute($s, OCI_DEFAULT);
-			                        OCIFetch($s);
+			                        $s = oci_parse($c, "SELECT * FROM elements WHERE elem_id ='$id'");
+			                        oci_execute($s, OCI_DEFAULT);
+			                        oci_fetch($s);
 
-			                        echo "<tr><td><input type='text' class='input_chng' name='elem_name' value='".ociresult($s, "ELEM_NAME")."'></td><td>" .
-			                        	"<input type='text' class='input_chng' name='nominal' value='".ociresult($s, "ELEM_NOMINAL")."'></td><td>".
-			                            "<input type='text' class='input_chng' name='type' value='".ociresult($s, "ELEM_TYPE")."'></td><td>".
-			                            "<input type='text' class='input_chng' name='provider' value='".ociresult($s, "ELEM_PROVIDER")."'></td>";
+			                        echo "<tr><td><input type='text' class='input_chng' name='elem_name' value='".oci_result($s, "ELEM_NAME")."'></td><td>" .
+			                        	"<input type='text' class='input_chng' name='nominal' value='".oci_result($s, "ELEM_NOMINAL")."'></td><td>".
+			                            "<input type='text' class='input_chng' name='type' value='".oci_result($s, "ELEM_TYPE")."'></td><td>".
+			                            "<input type='text' class='input_chng' name='provider' value='".oci_result($s, "ELEM_PROVIDER")."'></td>";
 										
 									echo "<td><select class='input_chng' name='op_id'>";
-									$s2 = OCIParse($c, "SELECT op_id, op_desc FROM operations ORDER BY OP_ID ASC");
-									OCIExecute($s2, OCI_DEFAULT);
-									while (OCIFetch($s2)) {
-										if (ociresult($s, "ELEM_OP_ID") == ociresult($s2, "OP_ID")) {
-											echo "<option selected value=".ociresult($s2, "OP_ID").">".ociresult($s2, "OP_DESC")."</option>";
+									$s2 = oci_parse($c, "SELECT op_id, op_desc FROM operations ORDER BY OP_ID ASC");
+									oci_execute($s2, OCI_DEFAULT);
+									while (oci_fetch($s2)) {
+										if (oci_result($s, "ELEM_OP_ID") == oci_result($s2, "OP_ID")) {
+											echo "<option selected value=".oci_result($s2, "OP_ID").">".oci_result($s2, "OP_DESC")."</option>";
 										} else {
-											echo "<option value=".ociresult($s2, "OP_ID").">".ociresult($s2, "OP_DESC")."</option>";
+											echo "<option value=".oci_result($s2, "OP_ID").">".oci_result($s2, "OP_DESC")."</option>";
 										}
 										
 									}
 									echo "</select></td></tr>";
 									
-			                        OCICommit($c);
-			                        OCILogoff($c);
+			                        oci_commit($c);
+			                        oci_close($c);
 			                        ?>
 
 			                    </table>
@@ -115,14 +115,14 @@ if ($_SESSION['user']['permission'] == "employee"){
 
 				                        if(isset($_POST['change'])){
 				                        	if ($id!=0){
-				                            	$s = OCIParse($c, "UPDATE elements SET elem_name = '$elem_name', elem_provider = '$provider', elem_nominal = '$nominal', elem_type = '$type', elem_op_id = '$op_id' WHERE elem_id = '$id' ");
+				                            	$s = oci_parse($c, "UPDATE elements SET elem_name = '$elem_name', elem_provider = '$provider', elem_nominal = '$nominal', elem_type = '$type', elem_op_id = '$op_id' WHERE elem_id = '$id' ");
 				                        	}
 				                        	else{
-				                        		$s = OCIParse($c, "INSERT INTO elements (elem_id,elem_name,elem_provider, elem_nominal, elem_type, elem_op_id) VALUES (NULL, '$elem_name','$provider','$nominal', '$type', '$op_id')");
+				                        		$s = oci_parse($c, "INSERT INTO elements (elem_id,elem_name,elem_provider, elem_nominal, elem_type, elem_op_id) VALUES (NULL, '$elem_name','$provider','$nominal', '$type', '$op_id')");
 				                        	}
-				                            OCIExecute($s, OCI_DEFAULT);
-				                            OCICommit($c);
-				                            OCILogoff($c);
+				                            oci_execute($s, OCI_DEFAULT);
+				                            oci_commit($c);
+				                            oci_close($c);
 				                            header('Location: elements.php');
 				                        }
 

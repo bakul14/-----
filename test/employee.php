@@ -64,24 +64,24 @@ if (!$_SESSION['user']) {
                         </tr>
                         <?php
                         include "connect.php";
-                        $s = OCIParse($c, "SELECT * FROM users ORDER BY US_ID DESC");
-                        OCIExecute($s, OCI_DEFAULT);
+                        $s = oci_parse($c, "SELECT * FROM users ORDER BY US_ID DESC");
+                        oci_execute($s, OCI_DEFAULT);
                         $radio=$_POST['radio'];
-                        while (OCIFetch($s)) {
-                            echo ("<tr><td><input type='radio' name='radio' value='".ociresult($s, "US_ID")."'></td><td>" .
-                            	ociresult($s, "US_ID") ."</td><td>" .
-                                ociresult($s, "US_LASTNAME") ."</td><td>" .
-                                ociresult($s, "US_FIRSTNAME") . "</td>" . "<td>".
-                                ociresult($s, "US_SURNAME") . "</td><td>".
-                                ociresult($s, "US_POSITION") . "</td><td>".
-                                ociresult($s, "US_PERMISSION") . "</td>" .
-                                "<td>". ociresult($s, "US_LOGIN" )."</td></tr>");
+                        while (oci_fetch($s)) {
+                            echo ("<tr><td><input type='radio' name='radio' value='".oci_result($s, "US_ID")."'></td><td>" .
+                            	oci_result($s, "US_ID") ."</td><td>" .
+                                oci_result($s, "US_LASTNAME") ."</td><td>" .
+                                oci_result($s, "US_FIRSTNAME") . "</td>" . "<td>".
+                                oci_result($s, "US_SURNAME") . "</td><td>".
+                                oci_result($s, "US_POSITION") . "</td><td>".
+                                oci_result($s, "US_PERMISSION") . "</td>" .
+                                "<td>". oci_result($s, "US_LOGIN" )."</td></tr>");
                         }
                             
                             if(isset($_POST['delete'])){
                             	
-                            	$d = OCIParse($c, "DELETE FROM users WHERE US_ID ='$radio'");
-                        		OCIExecute($d, OCI_DEFAULT);
+                            	$d = oci_parse($c, "DELETE FROM users WHERE US_ID ='$radio'");
+                        		oci_execute($d, OCI_DEFAULT);
                         		header("Refresh:0");
 
                         		if($_SESSION['user']['id']==$_POST['radio']){
@@ -94,9 +94,9 @@ if (!$_SESSION['user']) {
 
                             }
                         
-                        OCICommit($c);
+                        oci_commit($c);
                         // Отключаемся от бд
-                        OCILogoff($c);
+                        oci_close($c);
                         ?>
 
                     </table>

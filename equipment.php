@@ -68,24 +68,24 @@ if (!$_SESSION['user']) {
 				                        </tr>
 				                        <?php
 				                        include "connect.php";
-				                        $s = OCIParse($c, "SELECT * FROM equipment ORDER BY equip_id ASC");
-				                        OCIExecute($s, OCI_DEFAULT);
+				                        $s = oci_parse($c, "SELECT * FROM equipment ORDER BY equip_id ASC");
+				                        oci_execute($s, OCI_DEFAULT);
 	                       				$radio=$_POST['radio'];
-				                        while (OCIFetch($s)) {
+				                        while (oci_fetch($s)) {
 
 				                        	if ($_SESSION['user']['permission'] == "admin" || $_SESSION['user']['permission'] == "boss"){
-					                            echo ("<tr><td><input type='radio' name='radio' value='".ociresult($s, "EQUIP_ID")."'></td><td>" .
-					                                ociresult($s, "EQUIP_ID") ."</td><td>" .
-					                                ociresult($s, "EQUIP_NAME") . "</td><td>".
-					                                ociresult($s, "EQUIP_TYPE") . "</td><td>". 
-					                                ociresult($s, "EQUIP_OP_ID" )."</td></tr>");
+					                            echo ("<tr><td><input type='radio' name='radio' value='".oci_result($s, "EQUIP_ID")."'></td><td>" .
+					                                oci_result($s, "EQUIP_ID") ."</td><td>" .
+					                                oci_result($s, "EQUIP_NAME") . "</td><td>".
+					                                oci_result($s, "EQUIP_TYPE") . "</td><td>". 
+					                                oci_result($s, "EQUIP_OP_ID" )."</td></tr>");
 				                        	}
 				                        	else{
 				                        		echo ("<tr><td>" .
-					                                ociresult($s, "EQUIP_ID") ."</td><td>" .
-					                                ociresult($s, "EQUIP_NAME") . "</td><td>".
-					                                ociresult($s, "EQUIP_TYPE") . "</td><td>". 
-					                                ociresult($s, "EQUIP_OP_ID" )."</td></tr>");
+					                                oci_result($s, "EQUIP_ID") ."</td><td>" .
+					                                oci_result($s, "EQUIP_NAME") . "</td><td>".
+					                                oci_result($s, "EQUIP_TYPE") . "</td><td>". 
+					                                oci_result($s, "EQUIP_OP_ID" )."</td></tr>");
 				                        	}
 				                        }
 
@@ -97,8 +97,8 @@ if (!$_SESSION['user']) {
 				                            
 				                            if(isset($_POST['delete'])){
 				                            	
-				                            	$d = OCIParse($c, "DELETE FROM equipment WHERE equip_id ='$radio'");
-				                        		OCIExecute($d, OCI_DEFAULT);
+				                            	$d = oci_parse($c, "DELETE FROM equipment WHERE equip_id ='$radio'");
+				                        		oci_execute($d, OCI_DEFAULT);
 				                        		header("Refresh:0");
 				                            }
 
@@ -108,9 +108,9 @@ if (!$_SESSION['user']) {
 
 				                            }
 				                        
-				                        OCICommit($c);
+				                        oci_commit($c);
 				                        // Отключаемся от бд
-				                        OCILogoff($c);
+				                        oci_close($c);
 				                        ?>
 
 				                    </table>
