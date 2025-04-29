@@ -1,10 +1,12 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Регистрация</title>
     <link rel="stylesheet" href="css/login.css">
 </head>
+
 <body>
     <div class="login">
         <form action="signup.php" method="post" enctype="multipart/form-data">
@@ -23,18 +25,19 @@
             <button type="submit">Зарегистрировать пользователя</button>
 
             <?php
-                if (!empty($_SESSION['message']) && $_SESSION['message']=='Пароль введен некорркетно!' || $_SESSION['message']=='Логин введен некорректно!' || $_SESSION['message']=='Пользователь существует!' || $_SESSION['message']=='Неверный логин или пароль!' || $_SESSION['message']=='Имя введено некорректно!') {
-                    echo '<p class="msg"> ' . $_SESSION['message'] . ' </p>';
-                    unset($_SESSION['message']);
-                }
+            if (!empty($_SESSION['message']) && $_SESSION['message'] == 'Пароль введен некорркетно!' || $_SESSION['message'] == 'Логин введен некорректно!' || $_SESSION['message'] == 'Пользователь существует!' || $_SESSION['message'] == 'Неверный логин или пароль!' || $_SESSION['message'] == 'Имя введено некорректно!') {
+                echo '<p class="msg"> ' . $_SESSION['message'] . ' </p>';
                 unset($_SESSION['message']);
+            }
+            unset($_SESSION['message']);
             ?>
-            
+
         </form>
     </div>
-<footer>
-    (с) Kenchadze, Nekrasov IU4-81, 2021
-</footer>
+    <footer>
+        (с) Kenchadze, Nekrasov IU4-81, 2021
+    </footer>
 
 </body>
+
 </html>
