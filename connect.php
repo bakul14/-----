@@ -7,7 +7,7 @@ $username       = 'MISHA';          // Имя пользователя
 $password       = 'MISHA';          // Пароль
 
 // Формат строки подключения без SID
-$conn = oci_connect($username, $password, "$host:$port/$service_name");
+$c = oci_connect($username, $password, "$host:$port/$service_name");
 
 if (!$conn) {
     $e = oci_error();
