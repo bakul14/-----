@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+}
+
+body {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    height: 100vh;/* высота боди 100 процентов */
+    display: flex; /* флексбокс*/
+    align-items: center; /* вертикальное выравн*/
+    justify-content: center; /* горизонтальное выравн*/
+    flex-direction:column;
+
+}
+.login{
+    margin-top:20vh;
+}
+.login img{
+    margin-bottom:20px;
+}
+a {/* ссылки*/
+    color: #ff564a;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+p {
+    margin: 10px 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+
+input {
+    margin: 10px 0;
+    padding: 10px;
+    border: unset;
+    border-bottom: 2px solid #e3e3e3;
+    outline: none;
+    border-radius:10px;
+}
+
+button {
+    padding: 10px;
+    background: #e3e3e3;
+    border: unset;
+    border-radius: 10px;
+}
+
+.msg {
+    border: 3px solid #ff564a;
+    border-radius: 3px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 10px;
+}
+.msg_green{
+    border: 3px solid #00cc63;
+    border-radius: 3px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.logout {
+    color: #ff564a;
+}
+.user_info{
+    margin-top:40vh;
+    text-align:center;
+}
+
+footer{
+    font-weight:bold;
+    text-align:center;
+    margin-top:auto;
+    padding-bottom:20px;
+    padding-top:150px;
+}

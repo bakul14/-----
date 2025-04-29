@@ -1,0 +1,55 @@
+.reg{
+    display: flex; 
+    align-items: center; 
+    justify-content: left;
+    padding-top:10px;
+    font-size:15;
+	margin-left: 10vw;
+}
+input {
+    margin: 10px 0;
+    padding: 8px;
+    border: unset;
+    border-bottom: 2px solid #e3e3e3;
+    outline: none;
+    border-radius:10px;
+    font-size:15;
+}
+button {
+	margin-top:8px;
+    color:white;
+    background:#453A3E;
+    border: unset;
+    border-radius: 10px;
+    height:40px;
+    font-size:15;
+    width:180px;
+}
+button:hover{
+	background: #382D31;
+}
+.msg {
+    font-size:15;
+	margin-top:10px;
+    width:230px;
+    text-align:center;
+    color:#BC4122;
+    font-weight:bold;
+}
+.msg_green{
+      font-size:15;
+    margin-top:10px;
+    width:230px;
+    text-align:center;
+    color:#5DA060;
+    font-weight:bold;
+}
+.radioreg{
+    font-size:15;
+    width:170px;
+    background:white;
+    border-radius:10px;
+    padding-left:10px;
+    margin-top:5px;
+    margin-bottom:5px;
+}
